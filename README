@@ -1,0 +1,31 @@
+How to setup a Mapreduce Hbase Cluster
+
+1) create instance https://openstack.risc-software.at
+Image Name: Ubuntu Server 12.04 LTS 
+Flavor: m1.largediskdrive
+Key Name: srHadoop
+Security Groups : <GRP>
+
+Associate Floating IP: <IP>
+
+2) Set passwords install git and clone repository
+
+ssh -i path/to/<GRP> root@<IP>
+passwd
+passwd cloud
+apt-get update
+apt-get install git
+cd /home/cloud/
+mkdir chd5setup
+cd chd5setup
+git clone <GITREPO>
+
+3) on Master
+download ./oracle-java-7-update-45.tar.gz
+python 0_newid.py
+
+3) everywhere: run install scripts
+python 1_ssh.py
+python 2_java.py
+python 3_chd5.py
+
