@@ -27,11 +27,10 @@ if __name__ == '__main__':
 	if ip not in hosts:
 		print 'There is no name configured for {} please add the ip and name into the hosts dict in settings.py'.format(ip)
 		sys.exit(-1)
-	sethostname='sudo hostname {}'.format(hosts[ip])
+	sethostname='hostname {}'.format(hosts[ip])
 	sp.check_call(shlex.split(sethostname))
 	with open('/etc/hostname','w') as out:
 		out.write(hosts[ip])
-	#sethostname='echo {}|sudo tee /etc/hostname'.format(hosts[ip])
 	with open('/etc/hosts') as inp:
 		etchosts=inp.readlines()
 	etchosts=filter(lambda l: not contains_any(l,hosts.keys()),etchosts)

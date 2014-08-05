@@ -3,7 +3,6 @@ How to setup a Mapreduce Hbase Cluster
 1) create instance https://openstack.risc-software.at
 Image Name: Ubuntu Server 12.04 LTS 
 Flavor: m1.largediskdrive
-Key Name: srHadoop
 Security Groups : <GRP>
 
 Associate Floating IP: <IP>
@@ -24,8 +23,27 @@ git clone <GITREPO>
 download ./oracle-java-7-update-45.tar.gz
 python 0_newid.py
 
-3) everywhere: run install scripts
+4) everywhere (including Master):
+run install scripts
+
 python 1_ssh.py
 python 2_java.py
 python 3_chd5.py
+sudo python 4_network_conf.py
 
+5) on Master
+sudo cp -r /etc/hadoop/conf.empty /etc/hadoop/conf.my_cluster
+sudo cp -r /etc/hbase/conf.dist/ /etc/hbase/conf.benchmark_cluster
+
+configure everything according to http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-Installation-Guide/CDH5-Installation-Guide.html
+
+6) everywhere(including Master):
+run configuration distribution script
+
+sudo python 5_hadoop_conf.py
+
+Format HDFS with:
+hdfs namenode -format
+
+start services
+for x in `cd /etc/init.d ; ls hadoop-hdfs-*` ; do sudo service $x start ; done
