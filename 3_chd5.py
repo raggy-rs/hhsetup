@@ -22,7 +22,8 @@ deb-src http://archive.cloudera.com/cdh5/ubuntu/precise/amd64/cdh precise-cdh5 c
 	sp.check_call(shlex.split('apt-get install zookeeper'))
 	if master:
 		sp.check_call(shlex.split('apt-get install hadoop-yarn-resourcemanager hadoop-hdfs-namenode'))
+		sp.check_call(shlex.split('apt-get install hbase-master'))
 	else:
 		sp.check_call(shlex.split('apt-get install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce'))
 	sp.check_call(shlex.split('apt-get install  hadoop-client'))
-	sp.check_call(shlex.split('apt-get install hbase'))
+	sp.check_call(shlex.split('apt-get install hbase hbase-regionserver'))
