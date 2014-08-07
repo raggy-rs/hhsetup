@@ -26,10 +26,10 @@ python 0_newid.py
 4) everywhere (including Master):
 run install scripts
 
-python 1_ssh.py
-python 2_java.py
-python 3_chd5.py
-sudo python 4_network_conf.py
+sudo python 1_ssh.py
+sudo python 2_java.py
+sudo python 3_network_conf.py
+sudo python 4_chd5.py
 
 5) on Master
 sudo cp -r /etc/hadoop/conf.empty /etc/hadoop/conf.my_cluster
