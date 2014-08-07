@@ -1,9 +1,7 @@
 #!/usr/bin/python
-import os, sys, shlex, socket
+import os, sys, shlex
 import subprocess as sp
-from settings import masterip, hosts,username
-#for x in `cd /etc/init.d ; ls hadoop-hdfs-*` ; do sudo service $x start ; done
-services = ['hadoop-hdfs-namenode','hadoop-yarn-resourcemanager','hbase-master','hbase-regionserver']
+from settings import username
 
 def call(argstr):
 	sp.check_call(shlex.split(argstr))
@@ -35,26 +33,38 @@ def stop_services(services):
 	for service in reversed(services):
 		call("service {} stop".format(service))		
 
-def start_services(services):
+def init_services(services):
 	for service in services:
 		call("service {} start".format(service))
 		if service=='hadoop-hdfs-namenode':
 			call('sudo -u hdfs hadoop fs -mkdir /hbase')
 			call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
 
+def start_services(services):
+	for service in services:
+		call("service {} start".format(service))
 
-if __name__ == '__main__':
-	hostname=socket.gethostname()
+def get_services():
 	allservices = os.listdir('/etc/init.d')
 	services = filter(lambda x: x.startswith("hadoop-hdfs"),allservices)
 	services.extend(filter(lambda x: x.startswith('hadoop-yarn'),allservices))
 	services.extend(filter(lambda x: x.startswith('zookeeper'),allservices))
 	services.extend(sorted(filter(lambda x: x.startswith('hbase'),allservices)))
+	if not is_master():
+		services.remove('hbase-master')
+	return services
+
+def is_master():
+	import socket, settings
+	return settings.hosts[settings.masterip]==socket.gethostname()
+
+if __name__ == '__main__':
+	services=get_services()
 	print services
 	stop_services(services)
 	clear_data_dirs()
 	clear_log_dirs()
-	if hostname == hosts[masterip]:
+	if is_master():
 		format_namenode()
 	start_services(services)
 
