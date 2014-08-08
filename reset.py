@@ -73,4 +73,4 @@ if __name__ == '__main__':
 	clear_log_dirs()
 	if is_master():
 		format_namenode()
-	init_hdfs()
+		init_hdfs()
