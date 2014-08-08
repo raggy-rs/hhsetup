@@ -39,6 +39,8 @@ def init_services(services):
 		if service=='hadoop-hdfs-namenode':
 			call('sudo -u hdfs hadoop fs -mkdir /hbase')
 			call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
+			call('sudo -u hdfs hadoop fs -mkdir /tmp')
+			call('sudo -u hdfs hadoop fs -chmod -R 1777 /tmp')
 
 def list_running_services():
 	print 'This processes were succesfully started'
@@ -56,14 +58,13 @@ def get_services():
 	services.extend(filter(lambda x: x.startswith('hadoop-yarn'),allservices))
 	services.extend(filter(lambda x: x.startswith('zookeeper'),allservices))
 	services.extend(sorted(filter(lambda x: x.startswith('hbase'),allservices)))
-	if not is_master():
+	if not is_master() and 'hbase-master' in services:
 		services.remove('hbase-master')
 	return services
                                               
-
 def is_master():
 	import socket, settings
-	return settings.hosts[settings.masterip]==socket.gethostname()
+	return settings.hosts[settings.masterip]==socket.gethostname() 
 
 if __name__ == '__main__':
 	services=get_services()
@@ -73,4 +74,3 @@ if __name__ == '__main__':
 	clear_log_dirs()
 	if is_master():
 		format_namenode()
-	start_services()
