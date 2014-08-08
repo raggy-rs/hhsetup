@@ -33,14 +33,13 @@ def stop_services(services):
 	for service in reversed(services):
 		call("service {} stop".format(service))		
 
-def init_services(services):
-	for service in services:
-		call("service {} start".format(service))
-		if service=='hadoop-hdfs-namenode':
-			call('sudo -u hdfs hadoop fs -mkdir /hbase')
-			call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
-			call('sudo -u hdfs hadoop fs -mkdir /tmp')
-			call('sudo -u hdfs hadoop fs -chmod -R 1777 /tmp')
+def init_hdfs():
+	call("service hadoop-hdfs-namenode start")
+	call('sudo -u hdfs hadoop fs -mkdir /hbase')
+	call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
+	call('sudo -u hdfs hadoop fs -mkdir /tmp')
+	call('sudo -u hdfs hadoop fs -chmod -R 1777 /tmp')
+	list_running_services()
 
 def list_running_services():
 	print 'This processes were succesfully started'
@@ -74,3 +73,4 @@ if __name__ == '__main__':
 	clear_log_dirs()
 	if is_master():
 		format_namenode()
+	init_hdfs()
