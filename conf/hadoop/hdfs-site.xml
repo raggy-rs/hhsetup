@@ -24,7 +24,7 @@
   </property>
   <property>
     <name>dfs.permissions.superusergroup</name>
-    <value>cloud</value>
+    <value>hadoop</value>
   </property>
   <property>
  <name>dfs.namenode.name.dir</name>

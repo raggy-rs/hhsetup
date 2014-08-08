@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import os, sys, shlex
+import os, shlex
 import subprocess as sp
 from settings import username
 
@@ -40,9 +40,15 @@ def init_services(services):
 			call('sudo -u hdfs hadoop fs -mkdir /hbase')
 			call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
 
+def list_running_services():
+	print 'This processes were succesfully started'
+        javahome = '/usr/lib/jvm/jdk1.7.0_45'
+        call(os.path.join(javahome,'bin/jps'))
+
 def start_services(services):
 	for service in services:
 		call("service {} start".format(service))
+	list_running_services()
 
 def get_services():
 	allservices = os.listdir('/etc/init.d')
@@ -53,6 +59,7 @@ def get_services():
 	if not is_master():
 		services.remove('hbase-master')
 	return services
+                                              
 
 def is_master():
 	import socket, settings
@@ -66,5 +73,4 @@ if __name__ == '__main__':
 	clear_log_dirs()
 	if is_master():
 		format_namenode()
-	start_services(services)
-
+	start_services()
