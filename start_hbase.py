@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from reset import start_services
+from reset import start_services, is_master
 import os
 
 def get_services():
