@@ -13,7 +13,11 @@ def clear_data_dirs():
 		call('rm -r '+os.path.join(nndir,f))
 	dndir = os.path.join(dfsbase,'dn')
 	for f in os.listdir(dndir):
-		call('rm -r '+os.path.join(dndir,f))	
+		call('rm -r '+os.path.join(dndir,f))
+	dndir = '/mnt/data/dfs/dn'
+	if os.path.isdir(dndir):
+		for f in os.listdir(dndir):
+			call('rm -r '+os.path.join(dndir,f))
 
 def clear_log_dirs():
 	logbase='/var/log'
