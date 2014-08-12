@@ -32,6 +32,6 @@
 </property>
 <property>
  <name>dfs.datanode.data.dir</name>
- <value>file:///home/cloud/data/dfs/dn</value>
+ <value>file:///mnt/data/dfs/dn</value>
 </property>
 </configuration>
