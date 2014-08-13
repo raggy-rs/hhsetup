@@ -14,6 +14,7 @@ def run_on_cluster(scriptname):
 		print 'Script must be in', scriptdir
 		return
 	for node in sorted(hosts.values()):
+		print 'call {} on {}'.format (script,node)
 		call('ssh root@{} "{}"'.format(node, script))
 	print sorted(hosts.values())
 

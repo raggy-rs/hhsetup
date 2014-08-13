@@ -6,18 +6,18 @@ from settings import username
 def call(argstr):
 	sp.check_call(shlex.split(argstr))
 
+def clean_dir(directory):
+	if os.path.isdir(directory):
+		for f in os.listdir(directory):
+			call('rm -r '+os.path.join(directory,f))
+
 def clear_data_dirs():
-	dfsbase = '/home/{}/data/dfs'.format(username)
-	nndir = os.path.join(dfsbase,'nn')
-	for f in os.listdir(nndir):
-		call('rm -r '+os.path.join(nndir,f))
-	dndir = os.path.join(dfsbase,'dn')
-	for f in os.listdir(dndir):
-		call('rm -r '+os.path.join(dndir,f))
-	dndir = '/mnt/data/dfs/dn'
-	if os.path.isdir(dndir):
-		for f in os.listdir(dndir):
-			call('rm -r '+os.path.join(dndir,f))
+	datadir = '/home/{}/data'.format(username)
+	dfsdir = os.path.join(datadir,'dfs')
+	clean_dir(os.path.join(dfsdir,'nn'))
+	clean_dir(os.path.join(dfsdir,'dn'))
+	clean_dir('/var/lib/zookeeper')
+	clean_dir('/mnt/data/dfs/dn')
 
 def clear_log_dirs():
 	logbase='/var/log'
@@ -32,6 +32,9 @@ def clear_log_dirs():
 
 def format_namenode():
 	call('sudo -u hdfs hadoop namenode -format')
+
+def init_zookeeper():
+	call('service zookeeper-server init --force --myid=1')
 
 def stop_services(services):
 	for service in reversed(services):
@@ -77,4 +80,5 @@ if __name__ == '__main__':
 	clear_log_dirs()
 	if is_master():
 		format_namenode()
+		init_zookeeper()
 		init_hdfs()
