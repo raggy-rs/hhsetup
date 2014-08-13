@@ -12,12 +12,9 @@ def clean_dir(directory):
 			call('rm -r '+os.path.join(directory,f))
 
 def clear_data_dirs():
-	datadir = '/home/{}/data'.format(username)
-	dfsdir = os.path.join(datadir,'dfs')
-	clean_dir(os.path.join(dfsdir,'nn'))
-	clean_dir(os.path.join(dfsdir,'dn'))
 	clean_dir('/var/lib/zookeeper')
 	clean_dir('/mnt/data/dfs/dn')
+	clean_dir('/mnt/data/dfs/nn')
 
 def clear_log_dirs():
 	logbase='/var/log'
