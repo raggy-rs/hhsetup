@@ -20,7 +20,7 @@ def clear_log_dirs():
 	logbase='/var/log'
 	logdirs=os.listdir(logbase)
 	for d in logdirs:
-		if d.startswith('hadoop') or d.startswith('hbase'):
+		if d.startswith('hadoop') or d in ['hbase', 'zookeeper']:
 			logdir = os.path.join(logbase,d)
 			for f in os.listdir(logdir):
 				p=os.path.join(logdir,f)
@@ -38,12 +38,13 @@ def stop_services(services):
 		call("service {} stop".format(service))		
 
 def init_hdfs():
-	call("service hadoop-hdfs-namenode start")
+	#start_services(["hadoop-hdfs-namenode"])
 	call('sudo -u hdfs hadoop fs -mkdir /hbase')
 	call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
 	call('sudo -u hdfs hadoop fs -mkdir /tmp')
 	call('sudo -u hdfs hadoop fs -chmod -R 1777 /tmp')
-	list_running_services()
+	call('sudo -u hdfs hadoop fs -mkdir -p /user/cloud')
+	call('sudo -u hdfs hadoop fs -chown cloud:cloud /user/cloud')
 
 def list_running_services():
 	print 'This processes were succesfully started'
@@ -56,15 +57,13 @@ def start_services(services):
 	list_running_services()
 
 def get_services():
-	allservices = os.listdir('/etc/init.d')
-	services = filter(lambda x: x.startswith("hadoop-hdfs"),allservices)
-	services.extend(filter(lambda x: x.startswith('hadoop-yarn'),allservices))
-	services.extend(filter(lambda x: x.startswith('zookeeper'),allservices))
-	services.extend(sorted(filter(lambda x: x.startswith('hbase'),allservices)))
-	if not is_master() and 'hbase-master' in services:
-		services.remove('hbase-master')
+	if is_master():
+		services = ['hadoop-hdfs-namenode', 'hadoop-yarn-resourcemanager', 'zookeeper-server', 'hbase-master']
+
+	else:
+		services = ['hadoop-hdfs-datanode', 'hadoop-yarn-nodemanager', 'hbase-regionserver']
 	return services
-                                              
+
 def is_master():
 	import socket, settings
 	return settings.hosts[settings.masterip]==socket.gethostname() 

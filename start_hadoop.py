@@ -1,12 +1,7 @@
 #!/usr/bin/python
-from reset import start_services,call
-import os
-
-def get_services():
-        allservices = os.listdir('/etc/init.d')
-        services = filter(lambda x: x.startswith("hadoop-hdfs"),allservices)
-        services.extend(filter(lambda x: x.startswith('hadoop-yarn'),allservices))
-        return services
+from reset import start_services,get_services
 
 if __name__=='__main__':
+	services = get_services()
+	services = filter(lambda x: "hbase" not in x, services)
 	start_services(get_services())
