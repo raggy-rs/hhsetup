@@ -15,12 +15,6 @@ def get_ip_address(ifname):
         struct.pack('256s', ifname[:15])
     )[20:24])
 
-def contains_any(whole, parts):
-	for p in parts:
-		if p in whole:
-			return True
-	return False
-
 if __name__ == '__main__':
 	ip = get_ip_address('eth0')
 
@@ -31,9 +25,17 @@ if __name__ == '__main__':
 	sp.check_call(shlex.split(sethostname))
 	with open('/etc/hostname','w') as out:
 		out.write(hosts[ip])
-	with open('/etc/hosts') as inp:
-		etchosts=inp.readlines()
-	etchosts=filter(lambda l: not contains_any(l,hosts.keys()),etchosts)
+	etchosts=['''127.0.0.1	localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+''']
+
 	for i,n in hosts.items():
 		etchosts.append('{} {}\n'.format(i,n))
 	with open('/etc/hosts','w') as out:
