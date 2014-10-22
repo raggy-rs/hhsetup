@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import os, shlex, subprocess
+
 def call(argstr):
         subprocess.check_call(shlex.split(argstr))
 
@@ -15,7 +16,11 @@ def create_tables(kmers):
 		out.write(script)
 	call('hbase shell '+scriptfile)
 
+def copy_data():
+	call('hadoop fs -mkdir -p /user/cloud/data/')
+	call('hadoop fs -copyFromLocal /home/cloud/hhsetup/data/* /user/cloud/data/')
 
 if __name__=='__main__':
 	kmers = [8,16,32]
 	create_tables(kmers)
+	copy_data()

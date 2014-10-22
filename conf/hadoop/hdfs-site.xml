@@ -30,4 +30,9 @@
    <name>dfs.datanode.data.dir</name>
    <value>file:///mnt/data/dfs/dn</value>
   </property>
+  <property>
+   <name>dfs.replication</name>
+   <value>1</value>
+  </property>
+
 </configuration>

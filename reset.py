@@ -15,6 +15,7 @@ def clear_data_dirs():
 	clean_dir('/var/lib/zookeeper')
 	clean_dir('/mnt/data/dfs/dn')
 	clean_dir('/mnt/data/dfs/nn')
+	clean_dir('/mnt/data/hadoop-yarn')
 
 def clear_log_dirs():
 	logbase='/var/log'
@@ -38,7 +39,7 @@ def stop_services(services):
 		call("service {} stop".format(service))		
 
 def init_hdfs():
-	#start_services(["hadoop-hdfs-namenode"])
+	start_services(["hadoop-hdfs-namenode"])
 	call('sudo -u hdfs hadoop fs -mkdir /hbase')
 	call('sudo -u hdfs hadoop fs -chown hbase:hbase /hbase')
 	call('sudo -u hdfs hadoop fs -mkdir /tmp')
@@ -46,8 +47,8 @@ def init_hdfs():
 	call('sudo -u hdfs hadoop fs -mkdir -p /user/cloud')
 	call('sudo -u hdfs hadoop fs -chown cloud:cloud /user/cloud')
 
-def list_running_services():
-	print 'This processes were succesfully started'
+def list_running_services(msg='This processes are running'):
+	print msg
         javahome = '/usr/lib/jvm/jdk1.7.0_45'
         call(os.path.join(javahome,'bin/jps'))
 
@@ -69,6 +70,7 @@ def is_master():
 	return settings.hosts[settings.masterip]==socket.gethostname() 
 
 if __name__ == '__main__':
+	list_running_services()
 	services=get_services()
 	print services
 	stop_services(services)
@@ -78,3 +80,4 @@ if __name__ == '__main__':
 		format_namenode()
 		init_zookeeper()
 		init_hdfs()
+	list_running_services()
