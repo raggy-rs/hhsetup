@@ -16,9 +16,9 @@ if __name__ == '__main__':
 		call('update-alternatives --set {0}-conf {1}'.format(what, confdir))
         
 	print '\nCreate data directories if nessecary'
-	datapath=os.path.expanduser('~/data')
-	nnpath=os.path.join(datapath,'/dfs/nn')
-	dnpath=os.path.join(datapath,'/dfs/dn')
+	datapath='/mnt/data/'
+	nnpath=os.path.join(datapath,'dfs/nn')
+	dnpath=os.path.join(datapath,'dfs/dn')
 	if not os.path.isdir(nnpath):
 		os.makedirs(nnpath)
 	if not os.path.isdir(dnpath):
