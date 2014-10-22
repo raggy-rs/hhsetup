@@ -5,4 +5,4 @@ if __name__=='__main__':
 	services = get_services()
 	services = filter(lambda x: "hbase" not in x and 'zookeeper' not in x, services)
 	print services
-	start_services(get_services())
+	start_services(services)
