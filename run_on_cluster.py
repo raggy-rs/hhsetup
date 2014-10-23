@@ -7,13 +7,16 @@ def run_on_cluster(scriptname):
 	if scriptname[-3:]!='.py':
 		print 'Only runs python scripts'
 		return
+	reverse=False
+	if scriptname.endswith("reset.py"):
+		reverse=True
 	scriptdir = '/home/cloud/hhsetup'
 	script = os.path.join(scriptdir, name)
 	print scriptdir, os.path.dirname(script)
 	if os.path.dirname(script) != scriptdir:
 		print 'Script must be in', scriptdir
 		return
-	for node in sorted(hosts.values()):
+	for node in sorted(hosts.values(),reverse=reverse):
 		print 'call {} on {}'.format (script,node)
 		call('ssh root@{} "{}"'.format(node, script))
 	print sorted(hosts.values())

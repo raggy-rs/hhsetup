@@ -25,3 +25,6 @@ if __name__ == '__main__':
 		os.makedirs(dnpath)
 	
 	call('chown -R hdfs:hdfs '+datapath)
+	print 'Add HADOOP_CLASSPATH to .bashrc'
+	with open(os.path.expanduser('~/.bashrc'),'aw') as out:
+		out.write("export HADOOP_CLASSPATH=`hbase classpath`/home/cloud/hhsetup/jar/*:")

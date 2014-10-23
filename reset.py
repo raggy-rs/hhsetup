@@ -3,6 +3,13 @@ import os, shlex
 import subprocess as sp
 from settings import username
 
+class printName(object):
+	def __init__(self, f):
+		self.f = f
+        def __call__(self, *args, **kwargs):
+	        print self.f.__name__.replace('_',' ')
+	        self.f(*args,**kwargs)
+	
 def call(argstr):
 	sp.check_call(shlex.split(argstr))
 
@@ -10,13 +17,14 @@ def clean_dir(directory):
 	if os.path.isdir(directory):
 		for f in os.listdir(directory):
 			call('rm -r '+os.path.join(directory,f))
-
+@printName
 def clear_data_dirs():
 	clean_dir('/var/lib/zookeeper')
 	clean_dir('/mnt/data/dfs/dn')
 	clean_dir('/mnt/data/dfs/nn')
 	clean_dir('/mnt/data/hadoop-yarn')
 
+@printName
 def clear_log_dirs():
 	logbase='/var/log'
 	logdirs=os.listdir(logbase)
@@ -28,16 +36,20 @@ def clear_log_dirs():
 				if os.path.isfile(p):
 					os.remove(p)
 
+@printName
 def format_namenode():
 	call('sudo -u hdfs hadoop namenode -format')
 
+@printName
 def init_zookeeper():
 	call('service zookeeper-server init --force --myid=1')
 
+@printName
 def stop_services(services):
 	for service in reversed(services):
 		call("service {} stop".format(service))		
 
+@printName
 def init_hdfs():
 	start_services(["hadoop-hdfs-namenode"])
 	call('sudo -u hdfs hadoop fs -mkdir /hbase')
@@ -52,6 +64,7 @@ def list_running_services(msg='This processes are running'):
         javahome = '/usr/lib/jvm/jdk1.7.0_45'
         call(os.path.join(javahome,'bin/jps'))
 
+@printName
 def start_services(services):
 	for service in services:
 		call("service {} start".format(service))
@@ -70,7 +83,6 @@ def is_master():
 	return settings.hosts[settings.masterip]==socket.gethostname() 
 
 if __name__ == '__main__':
-	list_running_services()
 	services=get_services()
 	print services
 	stop_services(services)
