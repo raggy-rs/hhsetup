@@ -12,5 +12,6 @@ for p in paths:
 		classpath+=jars
 	else:
 		classpath+=[p]
+classpath+=['/etc/hbase/']
 print ':'.join(classpath)
 	

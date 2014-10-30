@@ -1,8 +1,8 @@
 #!/usr/bin/python
-import os, shlex, subprocess
+import os, shlex, subprocess, time
 
-def call(argstr):
-        subprocess.check_call(shlex.split(argstr))
+def call(argstr, shell=False):
+        subprocess.check_call(shlex.split(argstr),shell=shell)
 
 def create_tables(kmers):
 	script='create "METAINFO", "d"\ncreate "SEQUENCE", "d"\n'
@@ -18,7 +18,7 @@ def create_tables(kmers):
 
 def copy_data():
 	call('hadoop fs -mkdir -p /user/cloud/data/')
-	call('hadoop fs -copyFromLocal /home/cloud/hhsetup/data/* /user/cloud/data/')
+	call('hadoop fs -copyFromLocal /home/cloud/hhsetup/data/* /user/cloud/data/',True)
 
 if __name__=='__main__':
 	kmers = [8,16,32]
