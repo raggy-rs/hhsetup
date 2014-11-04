@@ -5,5 +5,5 @@ sshdir='/home/'+username+'/.ssh/'
 jdktar='/home/'+username+'/jdk-7u45-linux-x64.tar.gz'
 jvmdir='/usr/lib/jvm/'
 jdkversion='jdk1.7.0_45'
-hosts={masterip:'hhm','10.148.0.2':'hhs1','10.148.0.6':'hhs2'}#,'10.148.0.20':'hhs3'}
+hosts={masterip:'hhm','10.148.0.20':'hhs3'}#,'10.148.0.2':'hhs1','10.148.0.6':'hhs2'}#,'10.148.0.20':'hhs3'}
 configname='benchmark_cluster'
