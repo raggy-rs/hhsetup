@@ -17,8 +17,8 @@ def create_tables(kmers):
 	call('hbase shell '+scriptfile)
 
 def copy_data():
-	call('hadoop fs -mkdir -p /user/cloud/data/')
-	call('hadoop fs -copyFromLocal /home/cloud/hhsetup/data/* /user/cloud/data/',True)
+	subprocess.check_call('hadoop fs -mkdir -p /user/cloud/data/',shell=True)
+	subprocess.check_call('hadoop fs -copyFromLocal /home/cloud/hhsetup/data/* /user/cloud/data/',shell=True)
 
 if __name__=='__main__':
 	kmers = [8,16,32]
