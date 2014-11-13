@@ -27,7 +27,9 @@ def clear_data_dirs():
 @printName
 def clear_log_dirs():
 	logbase='/var/log'
-	shutil.rmtree('/var/log/hadoop-yarn/containers/')
+	cont = '/var/log/hadoop-yarn/containers/'
+	if os.path.isdir(cont):
+		shutil.rmtree(cont)
 	logdirs=os.listdir(logbase)
 	for d in logdirs:
 		if d.startswith('hadoop') or d in ['hbase', 'zookeeper']:
