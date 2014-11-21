@@ -70,6 +70,6 @@ if __name__=="__main__":
 			log_output_and_time(run_import,args.db,args.k)
 			log_output_and_time(get_db_size)
 			log_output_and_time(run_align,args.query,args.k)
-			log_output_and_time(get_db_size)
+			#log_output_and_time(get_db_size)
 			log_output_and_time(truncate_db)
 
