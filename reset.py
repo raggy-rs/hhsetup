@@ -26,7 +26,10 @@ def clear_data_dirs():
 
 @printName
 def clear_log_dirs():
-	logbase='/var/log'
+	shutil.rmtree('/mnt/data/log/hadoop')
+	shutil.rmtree('/mnt/data/log/yarn')
+	shutil.rmtree('/mnt/data/log/hbase')
+	"""logbase='/var/log'
 	cont = '/var/log/hadoop-yarn/containers/'
 	if os.path.isdir(cont):
 		shutil.rmtree(cont)
@@ -38,10 +41,10 @@ def clear_log_dirs():
 				p=os.path.join(logdir,f)
 				if os.path.isfile(p):
 					os.remove(p)
-
+	"""
 @printName
 def format_namenode():
-	call('sudo -u hdfs hadoop namenode -format')
+	call('sudo -u hdfs hdfs namenode -format')
 
 @printName
 def init_zookeeper():

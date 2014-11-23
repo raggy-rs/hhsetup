@@ -19,12 +19,16 @@ if __name__ == '__main__':
 	datapath='/mnt/data/'
 	nnpath=os.path.join(datapath,'dfs/nn')
 	dnpath=os.path.join(datapath,'dfs/dn')
+	logpath = os.path.join(datapath,'log')
 	if not os.path.isdir(nnpath):
 		os.makedirs(nnpath)
 	if not os.path.isdir(dnpath):
 		os.makedirs(dnpath)
-	
-	call('chown -R hdfs:hdfs '+datapath)
+	if not os.path.isdir(logpath):
+		os.makedirs(logpath)
+	call('chown -R hdfs:hadoop '+datapath)
+	call('chmod g+w '+datapath)
+	call('usermod -a -G hadoop hbase')
 	print 'Add HADOOP_CLASSPATH to .bashrc'
 	with open(os.path.expanduser('~/.bashrc'),'aw') as out:
 		out.write("export HADOOP_CLASSPATH=`hbase classpath`/home/cloud/hhsetup/jar/*:")
