@@ -42,8 +42,10 @@ def run_import(files,k):
 	process.wait()
 	return process.stdout.read()
 
-def run_align(query,k):
-	cmd = "hadoop jar jar/{} {} {} -i {} -f {} -k {} -v".format(align_jar, libjars, hbase_conf, query, hdfs_data_path+query, k)
+def run_align(query,k, x):
+	if x:
+		x="-x"
+	cmd = "hadoop jar jar/{} {} {} -i {} -f {} -k {} -v {}".format(align_jar, libjars, hbase_conf, query, hdfs_data_path+query, k, x)
 	output=StringIO()
 	process = Popen(cmd,shell=True,stdout=PIPE);
 	process.wait()
@@ -62,6 +64,7 @@ if __name__=="__main__":
 	lineparser.add_argument("query",type=str)
 	lineparser.add_argument("-k",type=int)
 	lineparser.add_argument("-db",type=str, nargs="+")
+	lineparser.add_argument("-x",action="store_true")
 	for line in lines:
 		line = line.strip().lstrip()
 		if not line.startswith("#") and line != "":
@@ -69,7 +72,7 @@ if __name__=="__main__":
 			log_output_and_time(get_db_size)
 			log_output_and_time(run_import,args.db,args.k)
 			log_output_and_time(get_db_size)
-			log_output_and_time(run_align,args.query,args.k)
+			log_output_and_time(run_align,args.query,args.k,args.x)
 			#log_output_and_time(get_db_size)
 			log_output_and_time(truncate_db)
 

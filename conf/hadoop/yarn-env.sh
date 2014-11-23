@@ -80,9 +80,7 @@ IFS=
 
 
 # default log directory & file
-if [ "$YARN_LOG_DIR" = "" ]; then
-  YARN_LOG_DIR="$HADOOP_YARN_HOME/logs"
-fi
+YARN_LOG_DIR="/mnt/data/log"
 if [ "$YARN_LOGFILE" = "" ]; then
   YARN_LOGFILE='yarn.log'
 fi
