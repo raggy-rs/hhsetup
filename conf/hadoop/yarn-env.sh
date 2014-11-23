@@ -80,7 +80,7 @@ IFS=
 
 
 # default log directory & file
-YARN_LOG_DIR="/mnt/data/log"
+YARN_LOG_DIR="/mnt/data/log/yarn"
 if [ "$YARN_LOGFILE" = "" ]; then
   YARN_LOGFILE='yarn.log'
 fi
