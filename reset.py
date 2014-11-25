@@ -78,7 +78,7 @@ def start_services(services):
 
 def get_services():
 	if is_master():
-		services = ['hadoop-hdfs-namenode', 'hadoop-yarn-resourcemanager', 'zookeeper-server', 'hbase-master']
+		services = ['hadoop-hdfs-namenode', 'hadoop-yarn-resourcemanager', 'hadoop-mapreduce-historyserver', 'zookeeper-server', 'hbase-master']
 
 	else:
 		services = ['hadoop-hdfs-datanode', 'hadoop-yarn-nodemanager', 'hbase-regionserver']

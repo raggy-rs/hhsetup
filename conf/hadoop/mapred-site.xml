@@ -22,4 +22,12 @@
     <name>mapreduce.framework.name</name>
     <value>yarn</value>
   </property>
+  <property>
+    <name>mapreduce.jobhistory.address</name>
+    <value>hhm:10010</value> 
+  </property>
+  <property>
+    <name>mapreduce.jobtracker.jobhistory.location</name>
+    <value>/mnt/data/log/history</value>
+  </property>
 </configuration>

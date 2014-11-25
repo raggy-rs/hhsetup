@@ -13,6 +13,8 @@ align_jar = "gblast-align-0.8.0-SNAPSHOT.jar"
 import_jar = "gblast-importer-0.8.0-SNAPSHOT.jar"
 common_jar = "gblast-common-0.8.0-SNAPSHOT.jar"
 
+numtasks = "-Dmapred.map.tasks=10 -Dmapred.reduce.tasks=10"
+
 hbase_conf = "-conf conf/hbase/hbase-site.xml"
 libjars = get_libjars()
 
@@ -36,7 +38,7 @@ def log_output_and_time(cmd,*args):
 
 def run_import(files,k):
 	files = ",".join(map(lambda f: hdfs_data_path+f, files))
-	cmd = "hadoop jar jar/{} -libjars jar/{} {} -f {} -k {} -v".format(import_jar, common_jar, hbase_conf, files, k)
+	cmd = "hadoop jar jar/{} -libjars jar/{} {} {} -f {} -k {} -v ".format(import_jar, common_jar, hbase_conf, numtasks, files, k)
 	output=StringIO()
 	process = Popen(cmd,shell=True,stdout=PIPE)
 	process.wait()
@@ -45,7 +47,7 @@ def run_import(files,k):
 def run_align(query,k, x):
 	if x:
 		x="-x"
-	cmd = "hadoop jar jar/{} {} {} -i {} -f {} -k {} -v {}".format(align_jar, libjars, hbase_conf, query, hdfs_data_path+query, k, x)
+	cmd = "hadoop jar jar/{} {} {} {} -i {} -f {} -k {} -v {} ".format(align_jar, libjars, hbase_conf, numtasks, query, hdfs_data_path+query, k, x)
 	output=StringIO()
 	process = Popen(cmd,shell=True,stdout=PIPE);
 	process.wait()
