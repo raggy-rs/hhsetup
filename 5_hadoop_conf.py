@@ -27,7 +27,7 @@ if __name__ == '__main__':
 	if not os.path.isdir(logpath):
 		os.makedirs(logpath)
 	call('chown -R hdfs:hadoop '+datapath)
-	call('chmod g+w '+datapath)
+	call('chmod -R g+w '+datapath)
 	call('usermod -a -G hadoop hbase')
 	print 'Add HADOOP_CLASSPATH to .bashrc'
 	with open(os.path.expanduser('~/.bashrc'),'aw') as out:
