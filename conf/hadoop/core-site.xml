@@ -22,4 +22,8 @@
     <name>fs.defaultFS</name>
     <value>hdfs://hhm</value>
   </property>
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/mnt/data/tmp</value>
+  </property>
 </configuration>
