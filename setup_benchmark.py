@@ -5,7 +5,7 @@ def call(argstr, shell=False):
         subprocess.check_call(shlex.split(argstr),shell=shell)
 
 def create_tables(kmers):
-	script='create "METAINFO", "d"'#\ncreate "SEQUENCE", "d"\n'
+	script='create "METAINFO", "d"\n'#\ncreate "SEQUENCE", "d"\n'
 	#for k in kmers:
 	#	script += 'create "KMERS{}", "m", "d"\n'.format(k)
 	script += 'list\nexit\n'
@@ -16,7 +16,7 @@ def create_tables(kmers):
 		out.write(script)
 	call('hbase shell '+scriptfile)
 	for k in kmers:
-		call('hbase hbase org.apache.hadoop.hbase.util.RegionSplitter KMERS{} UniformSplit -c 4 -f d'.format(k))
+		call('hbase org.apache.hadoop.hbase.util.RegionSplitter KMERS{} UniformSplit -c 4 -f d'.format(k))
 
 def copy_data():
 	subprocess.check_call('hadoop fs -mkdir -p /user/cloud/data/',shell=True)
