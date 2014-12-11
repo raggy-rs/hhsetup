@@ -21,8 +21,11 @@ def clean_dir(directory):
 def clear_data_dirs():
 	clean_dir('/var/lib/zookeeper')
 	clean_dir('/mnt/data/dfs/dn')
+	clean_dir('/mnt/data2/dfs/dn')
 	clean_dir('/mnt/data/dfs/nn')
+	clean_dir('/mnt/data2/dfs/nn')
 	clean_dir('/mnt/data/hadoop-yarn')
+	clean_dir('/mnt/data2/hadoop-yarn')
 
 @printName
 def clear_log_dirs():
